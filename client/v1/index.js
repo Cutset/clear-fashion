@@ -89,6 +89,7 @@ const marketplaceFiltered = FilterPriceRange(marketplace, 50, 100)
 // 2. Log the list
 console.log(marketplaceFiltered)
 
+<<<<<<< HEAD
 // 🎯 TODO: Average Basket
 // 1. Determine the average basket of the marketplace
 var prices = []
@@ -96,6 +97,10 @@ marketplace.forEach(obj=>prices.push(obj.price))
 
 const reducer = (previousValue, currentValue) => previousValue + currentValue;
 var price_sum = prices.reduce(reducer)
+=======
+// 🎯 TODO: Average price
+// 1. Determine the average price of the marketplace
+>>>>>>> 366a5ecac46cc22874c918455f258da430ba06ca
 // 2. Log the average
 console.log((price_sum/marketplace.length).toFixed(2))
 
