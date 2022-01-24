@@ -302,8 +302,9 @@ blueJacket = {
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
 jacket = {...blueJacket};
 jacket.favorite = true;
-console.log("Updated Jacket:",jacket);
 
+console.log("Updated Jacket:",jacket);
+console.log("BlueJacket:",blueJacket);
 
 
 /**
@@ -314,6 +315,6 @@ console.log("Updated Jacket:",jacket);
 
 // 🎯 TODO: Save in localStorage
 // 1. Save MY_FAVORITE_BRANDS in the localStorage
-let localStorage = [...MY_FAVORITE_BRANDS]
+let localStorage = [...MY_FAVORITE_BRANDS];
 // 2. log the localStorage
 console.log("localStorage:",localStorage)
