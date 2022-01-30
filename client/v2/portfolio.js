@@ -5,8 +5,8 @@
 let currentProducts = [];
 let currentPagination = {};
 
-// inititiqte selectors
-const selectShow = document.querySelector('#show-select');
+// initiate selectors
+const selectShow = document.querySelector('#show-select'); //On stock le selecte HTML dans une vaiable js
 const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
@@ -40,7 +40,8 @@ const fetchProducts = async (page = 1, size = 12) => {
     }
 
     return body.data;
-  } catch (error) {
+  } 
+  catch (error) {
     console.error(error);
     return {currentProducts, currentPagination};
   }
@@ -110,10 +111,25 @@ const render = (products, pagination) => {
  * Select the number of products to display
  * @type {[type]}
  */
-selectShow.addEventListener('change', event => {
+selectShow.addEventListener('change', event => {//"change" est le type d'event écouté
   fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination));
+});
+
+// Feature 1: Select Page
+selectPage.addEventListener('change', event => {
+  currentPagination.currentPage = parseInt(event.target.value);
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+  .then(setCurrentProducts)
+  .then(() => render(currentProducts, currentPagination));
+
+  populateBrandSelector();
+
+  recentProduct.setAttribute("style", "color:black;");
+  reasonablePrice.setAttribute("style", "color:black;");
+  onlyReasonable = false;
+  onlyRecent = false;
 });
 
 document.addEventListener('DOMContentLoaded', () =>
