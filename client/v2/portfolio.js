@@ -12,6 +12,7 @@ const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
+const sortSelect = document.querySelector('#sort-select')
 
 /**
  * Set global value
@@ -117,6 +118,10 @@ async function getAllItems (listOfItems,products,count){
 }
 
 
+let PriceSorting = (arr)=>{
+  return arr.sort((a,b)=>(a.price-b.price))
+}
+
 /* let sort;
 sort = {... allProducts};
 sort.sort((value1,value2) => (value1.price > value2.price) ? 1 : -1);
@@ -165,6 +170,13 @@ selectBrand.addEventListener('change', event => {
     .then(() => render(currentProducts, currentPagination));
 });
 
+//Feature 4: Sort by price
+sortSelect.addEventListener('change', event => {
+  var sorting = event.target.value;
+  fetchProducts(1, currentPagination.pageSize, brand)
+    .then(setCurrentProducts)
+    .then(() => render(currentProducts, currentPagination));
+});
 
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
