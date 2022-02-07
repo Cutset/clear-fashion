@@ -5,6 +5,7 @@
 let currentProducts = [];
 let currentPagination = {};
 
+
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
@@ -125,25 +126,41 @@ selectPage.addEventListener('change', event => {
 });
 
 //Feature 2:
-selectBrand.addEventListener('change', event => {
+selectBrand.addEventListener('change', async event => {
   if(event.target.value == "all"){
     const products = await fetchProducts(currentPagination.currentPage, selectShow.value);
     setCurrentProducts(products);
     render(currentProducts, currentPagination);
-
   }
   else{
     renderProducts(GetProductsByBrand(event.target.value))
   }
 });
 
-document.addEventListener('DOMContentLoaded', () =>
-  fetchProducts()
-    .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination))
-);
+document.addEventListener('DOMContentLoaded', async () =>{
+  const products = await fetchProducts(currentPagination.currentPage, selectShow.value);
+  fetchProducts(1, products.meta.count).then(brandSelectionCreator);
 
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
 
+function createBrandOption(brand){
+  const el = document.createElement("option");
+  console.log(brand)
+  el.innerHTML = brand
+  el.value = brand
+  selectBrand.appendChild(el)
+}
+
+function brandSelectionCreator(products){
+  var brandnames = []
+  for(let i = 0; i<products.result.length; i++){
+    brandnames.push(products.result[i].brand)
+  }
+  brandnames = new Set(brandnames)
+  brandnames.forEach(brand => createBrandOption(brand))
+}
 
 function GetProductsByBrand(brandName) {
   let brandProducts = [];
