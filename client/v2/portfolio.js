@@ -4,15 +4,12 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
-let brand = '';
-let allProducts = [];
+
 // inititiqte selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
-const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
-const sortSelect = document.querySelector('#sort-select')
 
 /**
  * Set global value
@@ -30,10 +27,10 @@ const setCurrentProducts = ({result, meta}) => {
  * @param  {Number}  [size=12] - size of the page
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12, brand = '') => {
+const fetchProducts = async (page = 1, size = 12) => {
   try {
     const response = await fetch(
-      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
+      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
     );
     const body = await response.json();
 
@@ -105,41 +102,6 @@ const render = (products, pagination) => {
   renderIndicators(pagination);
 };
 
-async function getAllItems (listOfItems,products,count){
-  const data = await fetchProducts(1, count)
-  for (let i = 0; i < data.result.length; i++){
-    const item = data.result[i]
-    products.push(item);
-    if (!listOfItems[item.brand]){
-      listOfItems[item.brand] = true;
-    }
-  }
-  return {listOfItems, products}
-}
-
-
-let PriceSorting = (arr)=>{
-  return arr.sort((a,b)=>(a.price-b.price))
-}
-
-/* let sort;
-sort = {... allProducts};
-sort.sort((value1,value2) => (value1.price > value2.price) ? 1 : -1);
- */
-/* function sortRecentProduct (allProducts, sort){
-  let twoWeeksAgo = new Date(Date.now() - 12096e5); //12096e5 is two weeks in miliseconds
-  for(let i = 0; i < allProducts.length; i++){
-    let d = new Date(allProducts[i].released); 
-    if(d.getTime() < twoWeeksAgo.getTime()){allProducts[i].newProducts = true}
-    else {allProducts[i].newProducts = false}
-    if(allProducts[i] == true){
-      sort.push(allProducts[i]);
-    }
-  }
-  console.log("New products only : " + sort);
-} */
-
-
 /**
  * Declaration of all Listeners
  */
@@ -149,31 +111,13 @@ sort.sort((value1,value2) => (value1.price > value2.price) ? 1 : -1);
  * @type {[type]}
  */
 selectShow.addEventListener('change', event => {
-  fetchProducts(1, parseInt(event.target.value), brand)
+  fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination));
 });
 
-//Feature 1: Select Page
 selectPage.addEventListener('change', event => {
-  var selectedPage = event.target.value;
-  fetchProducts(selectedPage, currentPagination.pageSize, brand)
-    .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination));
-});
-
-//Feature 2: Select per brand 
-selectBrand.addEventListener('change', event => {
-  brand = event.target.value;
-  fetchProducts(1, currentPagination.pageSize, brand)
-    .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination));
-});
-
-//Feature 4: Sort by price
-sortSelect.addEventListener('change', event => {
-  var sorting = event.target.value;
-  fetchProducts(1, currentPagination.pageSize, brand)
+  fetchProducts(parseInt(event.target.value), selectShow.value)
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination));
 });
@@ -182,14 +126,4 @@ document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination))
-    .then(() => getAllItems({},[],currentPagination.count))
-    .then(({listOfItems, products}) => {
-      allProducts = products;
-      const options = [];
-      options.push(selectBrand.innerHTML)
-      for(let key in listOfItems){
-        options.push(`<option value="${key}">${key}</option>`)
-      }
-      selectBrand.innerHTML = options.join('');
-    })
 );
