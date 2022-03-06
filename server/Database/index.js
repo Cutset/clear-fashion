@@ -67,4 +67,18 @@ module.exports.insert = async products => {
     }
 }
 
-console.log(query_mongo({ name : "Teddy Gallion taupe"}));
+// Find all products related to a given brands
+console.log(query_mongo({ brand : "Dedicated"}));
+
+// Find all products less than a price
+//console.log(query_mongo({ price: { $lt: 45 } }));
+
+// Find all products sorted by price
+// console.log(query_mongo({ name : "Teddy Gallion taupe"}));
+
+// Find all products sorted by date
+// console.log(query_mongo({ name : "Teddy Gallion taupe"}));
+
+// Find all products scraped less than 2 weeks
+// console.log(query_mongo({ name : "Teddy Gallion taupe"}));
+
