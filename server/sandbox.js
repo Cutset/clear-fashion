@@ -3,6 +3,7 @@ const dedicatedbrand = require('./sources/dedicatedbrand');
 const montlimart = require("./sources/montlimart");
 const adresse = require("./sources/adresse")
 const fs = require('fs');
+const db = require('./Database');
 
 // async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
 
@@ -47,26 +48,26 @@ async function sandboxAdresse (eshop = 'https://adresse.paris/630-toute-la-colle
   try {
     console.log(`🕵️‍♀️  browsing ${eshop} source`);
     const products = await adresse.scrape(eshop);
-
+    
     console.log(products);
     console.log('done');
     
     const data = JSON.stringify(products);
+    
+    db.insert(products)
+    db.close()
 
     fs.writeFile('products_adresse.json', data, (err) => {
-      if (err) {          
+      if (err) {
         throw err;
       }});
 
     //process.exit(0);
-
     
   } catch (e) {
     console.error(e);
     process.exit(1);
   }
-
-
 }
 
 

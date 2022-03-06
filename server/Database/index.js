@@ -3,9 +3,6 @@ const MONGODB_URI = 'mongodb+srv://cutset:root@waa.bctyg.mongodb.net/myFirstData
 const MONGODB_DB_NAME = 'WAA_products';
 const MONGODB_COLLECTION = 'WAA';
 
-const client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
-//const db =  client.db(MONGODB_DB_NAME)
-
 let client = null;
 let database = null;
 
