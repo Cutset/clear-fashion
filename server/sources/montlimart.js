@@ -10,14 +10,13 @@ const parse = data => {
           .find('.product-name')
           .text()
           .trim();
-          //.replace(/\s/g, ' ');
         const price = parseInt(
           $(element)
             .find('.price')
-            .text()
-        );
+            .text());
+        const brand = "Montlimart"
   
-        return {name, price};
+        return {name, price, brand};
       })
       .get();
   };

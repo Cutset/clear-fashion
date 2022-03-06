@@ -50,14 +50,15 @@ async function sandboxAdresse (eshop = 'https://adresse.paris/630-toute-la-colle
 
     console.log(products);
     console.log('done');
-
+    
     const data = JSON.stringify(products);
+
     fs.writeFile('products_adresse.json', data, (err) => {
-      if (err) {              
+      if (err) {          
         throw err;
       }});
 
-    process.exit(0);
+    //process.exit(0);
 
     
   } catch (e) {
