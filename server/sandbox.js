@@ -5,74 +5,97 @@ const adresse = require("./sources/adresse")
 const fs = require('fs');
 const db = require('./Database');
 
-// async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
-
-//   try {
-//     console.log(`🕵️‍♀️  browsing ${eshop} source`);
-//     const products = await dedicatedbrand.scrape(eshop);
-
-//     console.log(products);
-//     console.log('done');
-//     process.exit(0);
-//   } catch (e) {
-//     console.error(e);
-//     process.exit(1);
-//   }
-// }
-
-/**
- * Scrapes and fetches the products of the Montlimart eshop
- * @param {url for the website} eshop 
- */
-// async function sandboxMontlimart (eshop = 'https://www.montlimart.com/toute-la-collection.html') {
-
-//   try {
-//     console.log(`🕵️‍♀️  browsing ${eshop} source`);
-//     const products = await montlimart.scrape(eshop);
-
-//     console.log(products);
-//     console.log('done');
-//     process.exit(0);
-//   } catch (e) {
-//     console.error(e);
-//     process.exit(1);
-//   }
-// }
-
-/**
- * Scrapes and fetches the products of the ADRESSE Paris eshop
- * @param {url for the eshop's website} eshop 
- */
-async function sandboxAdresse (eshop = 'https://adresse.paris/630-toute-la-collection') {
+async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
 
   try {
     console.log(`🕵️‍♀️  browsing ${eshop} source`);
-    const products = await adresse.scrape(eshop);
-    
+    const products = await dedicatedbrand.scrape(eshop);
+
     console.log(products);
     console.log('done');
-    
-    const data = JSON.stringify(products);
-    
+
     db.insert(products)
     db.close()
 
-    fs.writeFile('products_adresse.json', data, (err) => {
+    const data = JSON.stringify(products);
+
+    fs.writeFile('products_dedicated.json', data, (err) => {
       if (err) {
         throw err;
       }});
-
     //process.exit(0);
-    
   } catch (e) {
     console.error(e);
     process.exit(1);
   }
 }
 
+/**
+ * Scrapes and fetches the products of the Montlimart eshop
+ * @param {url for the website} eshop 
+ */
+async function sandboxMontlimart (eshop = 'https://www.montlimart.com/toute-la-collection.html') {
+
+  try {
+    console.log(`🕵️‍♀️  browsing ${eshop} source`);
+    const products = await montlimart.scrape(eshop);
+
+    console.log(products);
+    console.log('done');
+
+    db.insert(products)
+    db.close()
+
+    const data = JSON.stringify(products);
+
+    fs.writeFile('products_montlimart.json', data, (err) => {
+      if (err) {
+        throw err;
+      }});
+
+    //process.exit(0);
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
+
+/**
+ * Scrapes and fetches the products of the ADRESSE Paris eshop
+ * @param {url for the eshop's website} eshop 
+ */
+// async function sandboxAdresse (eshop = 'https://adresse.paris/630-toute-la-collection') {
+
+//   try {
+//     console.log(`🕵️‍♀️  browsing ${eshop} source`);
+//     const products = await adresse.scrape(eshop);
+    
+//     console.log(products);
+//     console.log('done');
+    
+//     db.insert(products)
+//     db.close()
+
+//     const data = JSON.stringify(products);
+    
+
+
+//     fs.writeFile('products_adresse.json', data, (err) => {
+//       if (err) {
+//         throw err;
+//       }});
+
+//     //process.exit(0);
+    
+//   } catch (e) {
+//     console.error(e);
+//     process.exit(1);
+//   }
+// }
+
 
 const [,, eshop] = process.argv;
 
-//sandbox(eshop);
+sandbox(eshop);
 //sandboxMontlimart(eshop);
-sandboxAdresse(eshop)
+//sandboxAdresse(eshop)
