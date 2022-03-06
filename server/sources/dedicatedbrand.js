@@ -22,7 +22,7 @@ const parse = data => {
           .find('.productList-price')
           .text()
       );
-      const brand = "Dedicated"
+      const brand = "Dedicated";
 
       return {name, price, brand};
     })

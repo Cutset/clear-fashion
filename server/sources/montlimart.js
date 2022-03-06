@@ -14,7 +14,7 @@ const parse = data => {
           $(element)
             .find('.price')
             .text());
-        const brand = "Montlimart"
+        const brand = "Montlimart";
   
         return {name, price, brand};
       })
