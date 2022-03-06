@@ -14,9 +14,7 @@ const parse = data => {
     .map((i, element) => {
       const name = $(element)
         .find('.product-name')
-        .text()
-        .trim()
-        //.replace(/\s/g, ' ');
+        .attr('title');
       const price = parseInt(
         $(element)
           .find('.price.product-price')
