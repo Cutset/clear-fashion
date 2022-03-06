@@ -20,8 +20,9 @@ const parse = data => {
           .find('.price.product-price')
           .text()
       );
+      const brand = "Adresse";
 
-      return {name, price};
+      return {name, price, brand};
     })
     .get();
 };
