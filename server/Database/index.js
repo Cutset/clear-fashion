@@ -1,3 +1,4 @@
+const { query } = require('express');
 const {MongoClient} = require('mongodb');
 const MONGODB_URI = 'mongodb+srv://cutset:root@waa.bctyg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const MONGODB_DB_NAME = 'WAA_products';
@@ -48,3 +49,22 @@ module.exports.insert = async products => {
       console.error('🚨 MongoClient.close...', error);
     }
   };
+
+  query_mongo = async str_query =>{
+
+    try{
+        client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
+        database = client.db(MONGODB_DB_NAME);
+
+        database.collection("WAA").find(str_query).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            return result
+            
+        });
+    }catch (error) {
+      console.error('🚨 Query error: ', error);
+    }
+}
+
+console.log(query_mongo({ name : "Teddy Gallion taupe"}));
