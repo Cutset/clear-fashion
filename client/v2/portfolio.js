@@ -6,10 +6,11 @@ let currentProducts = [];
 let currentPagination = {};
 
 
-// inititiqte selectors
+// inititiate selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
+const selectSort = document.querySelector('#sort-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -137,6 +138,13 @@ selectBrand.addEventListener('change', async event => {
   }
 });
 
+//Feature 3:
+selectPage.addEventListener('change', event => {
+  fetchProducts(parseInt(event.target.value), selectShow.value)
+    .then(setCurrentProducts)
+    .then(() => render(currentProducts, currentPagination));
+});
+
 document.addEventListener('DOMContentLoaded', async () =>{
   const products = await fetchProducts(currentPagination.currentPage, selectShow.value);
   fetchProducts(1, products.meta.count).then(brandSelectionCreator);
@@ -145,6 +153,10 @@ document.addEventListener('DOMContentLoaded', async () =>{
   render(currentProducts, currentPagination);
 });
 
+/**
+ * Create an html option for brands
+ * @param {*} brand 
+ */
 function createBrandOption(brand){
   const el = document.createElement("option");
   console.log(brand)
@@ -153,6 +165,10 @@ function createBrandOption(brand){
   selectBrand.appendChild(el)
 }
 
+/**
+ * Creates the brand options depending on the available brands
+ * @param {*} products products available
+ */
 function brandSelectionCreator(products){
   var brandnames = []
   for(let i = 0; i<products.result.length; i++){
