@@ -2,6 +2,7 @@
 const dedicatedbrand = require('./sources/dedicatedbrand');
 const montlimart = require("./sources/montlimart");
 const adresse = require("./sources/adresse")
+const fs = require('fs');
 
 // async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
 
@@ -49,11 +50,22 @@ async function sandboxAdresse (eshop = 'https://adresse.paris/630-toute-la-colle
 
     console.log(products);
     console.log('done');
+
+    const data = JSON.stringify(products);
+    fs.writeFile('products_adresse.json', data, (err) => {
+      if (err) {              
+        throw err;
+      }});
+
     process.exit(0);
+
+    
   } catch (e) {
     console.error(e);
     process.exit(1);
   }
+
+
 }
 
 
