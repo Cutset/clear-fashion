@@ -68,13 +68,13 @@ module.exports.insert = async products => {
 }
 
 // Find all products related to a given brands
-console.log(query_mongo({ brand : "Dedicated"}));
+//console.log(query_mongo({ brand : "Dedicated"}));
 
 // Find all products less than a price
-//console.log(query_mongo({ price: { $lt: 45 } }));
+// console.log(query_mongo({ price: { $lt: 45 } }));
 
 // Find all products sorted by price
-// console.log(query_mongo({ name : "Teddy Gallion taupe"}));
+console.log(query_mongo({ $query: {}, $orderby: { price : -1 } }));
 
 // Find all products sorted by date
 // console.log(query_mongo({ name : "Teddy Gallion taupe"}));
