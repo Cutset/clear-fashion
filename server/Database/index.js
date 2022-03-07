@@ -44,7 +44,8 @@ module.exports.insert = async products => {
 
   module.exports.close = async () => {
     try {
-      await client.close();
+        client = await MongoClient.connect(MONGODB_URI, {'useNewUrlParser': true});
+        await client.close();
     } catch (error) {
       console.error('🚨 MongoClient.close...', error);
     }
@@ -77,8 +78,8 @@ module.exports.insert = async products => {
 console.log(query_mongo({ $query: {}, $orderby: { price : -1 } }));
 
 // Find all products sorted by date
-// console.log(query_mongo({ name : "Teddy Gallion taupe"}));
+
 
 // Find all products scraped less than 2 weeks
-// console.log(query_mongo({ name : "Teddy Gallion taupe"}));
+
 
