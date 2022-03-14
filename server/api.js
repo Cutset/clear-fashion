@@ -32,22 +32,27 @@ app.get('/products', async(req, res) => {
 app.get('/products/search', async(req, res) => {
   //console.log(req.params._id)
   
-  var queryMG = {}
+  var match = {};
+  var queryAgg = [];
+  
   const limit = parseInt(req.query.limit);
   const brand = req.query.brand;
   const price = parseInt(req.query.price);
 
   if (brand !== undefined){
-    queryMG["brand"] = brand;
+    match["brand"] = brand;
   }
   if (price !== undefined){
-    queryMG["price"] = {$lt:price};
+    match["price"] = {$lt:price};
   }
   if(limit !== undefined){
-    result = await db.find(queryMG).limit(limit);
+    queryAgg.push({$match : match});
+    queryAgg.push({$limit : limit});
+    console.log("query : ", queryAgg);
+    result = await db.aggregate(queryAgg);
   }
   else{
-    result = await db.find(queryMG);
+    result = await db.find(match);
   }
   console.log(result.length);
   res.send(result);
