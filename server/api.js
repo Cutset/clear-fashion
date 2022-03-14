@@ -2,6 +2,7 @@ const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 const db = require('./db');
+const { ObjectId } = require('mongodb');
 
 const PORT = 8092;
 
@@ -26,8 +27,15 @@ app.get('/products', async(req, res) => {
   res.send(result);
 });
 
+//Get product from id:
+app.get('/products/:_id', async(req, res) => {
+  //console.log(req.params._id)
+  result = await db.find({"_id" : new ObjectId(req.params._id)})
+  console.log(result.length)
+  res.send(result);
+});
 
-_ = db.getDB()
+
 app.listen(PORT);
 
 console.log(`📡 Running on port ${PORT}`);
