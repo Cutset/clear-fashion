@@ -42,26 +42,30 @@ app.get('/products/search', async(req, res) => {
   if (brand !== undefined){
     match["brand"] = brand;
   }
-  if (price !== undefined){
-    match["price"] = {$lt:price};
+  if (isNaN(price)){
   }
-  if(limit !== undefined){
+  else{
+  console.log("not different");
+  match["price"] = {$lt:price};
+}
+  if(isNaN(limit)){
     queryAgg.push({$match : match});
-    queryAgg.push({$limit : limit});
-    queryAgg.push({ $sort: { price: 1 } })
-    console.log("query : ", queryAgg);
+    queryAgg.push({ $sort: { price: 1 } });
     result = await db.aggregate(queryAgg);
   }
   else{
-    result = await db.find(match);
+    queryAgg.push({$match : match});
+    queryAgg.push({$limit : limit});
+    queryAgg.push({ $sort: { price: 1 } });
+    console.log("query : ", queryAgg);
+    result = await db.aggregate(queryAgg);
   }
   console.log(result.length);
-  res.send({"limit":limit,"total":result.length,"result" : result});
+  res.send({"limit" : limit, "total" : result.length, "result" : result});
 });
 
 //Get product from id:
 app.get('/products/:_id', async(req, res) => {
-  //console.log(req.params._id)
   result = await db.find({"_id" : new ObjectId(req.params._id)});
   console.log(result.length);
   res.send({"limit":undefined,"total":result.length,"result" : result});
