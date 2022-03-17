@@ -55,7 +55,7 @@ app.get('/products/search', async(req, res) => {
     result = await db.find(match);
   }
   console.log(result.length);
-  res.send(result);
+  res.send({"limit":limit,"total":result.length,"result" : result});
 });
 
 //Get product from id:
