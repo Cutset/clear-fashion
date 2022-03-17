@@ -22,7 +22,10 @@ app.get('/', (request, response) => {
 
 //Get all products: 
 app.get('/products', async(req, res) => {
-  result = await db.find({});
+  var queryAgg = [];
+  queryAgg.push({$match : {}});
+  queryAgg.push({ $sort: { price: 1 } });
+  result = await db.aggregate(queryAgg);
   console.log(result.length);
   res.send({"limit":undefined,"total":result.length,"result" : result});
 });
