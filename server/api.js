@@ -48,6 +48,7 @@ app.get('/products/search', async(req, res) => {
   if(limit !== undefined){
     queryAgg.push({$match : match});
     queryAgg.push({$limit : limit});
+    queryAgg.push({ $sort: { price: 1 } })
     console.log("query : ", queryAgg);
     result = await db.aggregate(queryAgg);
   }
