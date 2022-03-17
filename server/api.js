@@ -24,7 +24,7 @@ app.get('/', (request, response) => {
 app.get('/products', async(req, res) => {
   result = await db.find({});
   console.log(result.length);
-  res.send(result);
+  res.send({"limit":undefined,"total":result.length,"result" : result});
 });
 
 
@@ -63,7 +63,7 @@ app.get('/products/:_id', async(req, res) => {
   //console.log(req.params._id)
   result = await db.find({"_id" : new ObjectId(req.params._id)});
   console.log(result.length);
-  res.send(result);
+  res.send({"limit":undefined,"total":result.length,"result" : result});
 });
 
 app.listen(PORT);
