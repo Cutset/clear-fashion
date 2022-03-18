@@ -2,6 +2,8 @@
 const dedicatedbrand = require('./sites/dedicatedbrand');
 const loom = require('./sites/loom');
 const db = require('./db');
+const montlimart = require("./sources/montlimart");
+const adresse = require("./sources/adresse")
 
 async function sandbox () {
   try {
@@ -63,12 +65,60 @@ async function sandbox () {
 
     console.log(`👕 ${loomOnly.length} total of products found for Loom`);
     console.log(loomOnly);
-
+    
     db.close();
   } catch (e) {
     console.error(e);
   }
 }
 
-//sandbox();
-db.dropDatabase()
+async function scraper(eshop_scraper,url){
+    console.log(`🕵️‍♀️  scraping ${url}`);
+    let results = await eshop_scraper.scrape(url);
+
+    console.log(`👕 ${results.length} products found`);
+    return results;
+}
+
+async function sandbox2 () {
+  try {
+    let products = [];
+
+    //Scraping Adresse
+    let page = 'https://adresse.paris/630-toute-la-collection'
+    results = await scraper(adresse,page)
+    products.push(results);
+    
+    //Scraping Loom
+    page = 'https://www.loom.fr/collections/tous-les-vetements',
+    results = await scraper(loom,page)
+    products.push(results);
+
+    /* Scraping Dedicated
+    page = 'https://www.loom.fr/collections/tous-les-vetements',
+    results = await scraper(loom,page)
+    products.push(results);*/
+
+    
+
+
+
+    
+    console.log(`\n👕 ${products.length} total of products found AVANT\n`);
+    products = products.flat();
+    console.log(`\n👕 ${products.length} total of products found\n`);
+    
+    const result = await db.insert(products);
+
+    console.log(`💽  ${result.insertedCount} inserted products`);
+    db.close();
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+/*
+var l1 = [[{"a":1},{"a":5},{"a":2}],[{"b":1},{"b":3},{"b":4}]];
+console.log(l1.flat());*/
+sandbox2();
+//db.dropDatabase()
