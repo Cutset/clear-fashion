@@ -86,6 +86,16 @@ module.exports.aggregate = async query => {
   }
 };
 
+module.exports.dropDatabase = async () => {
+  try {
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    db.dropDatabase();
+  } catch (error) {
+    console.error('🚨 collection.find...', error);
+  }
+};
+
 /**
  * Close the connection
  */
