@@ -73,6 +73,10 @@ module.exports.find = async query => {
   }
 };
 
+/**
+ * @param {} query MongoDB query that will be passed
+ * @returns the data returned by the database
+ */
 module.exports.aggregate = async query => {
   try {
     const db = await getDB();
@@ -85,7 +89,9 @@ module.exports.aggregate = async query => {
     return null;
   }
 };
-
+/**
+ * Empty collection
+ */
 module.exports.dropDatabase = async () => {
   try {
     const db = await getDB();
