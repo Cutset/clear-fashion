@@ -96,7 +96,8 @@ module.exports.dropDatabase = async () => {
   try {
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
-    collection.deleteMany()
+    collection.deleteMany();
+    console.log("Collection successfully emptied!");
   } catch (error) {
     console.error('🚨 collection.find...', error);
   }

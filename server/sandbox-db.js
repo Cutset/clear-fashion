@@ -5,6 +5,12 @@ const db = require('./db');
 const montlimart = require("./sources/montlimart");
 const adresse = require("./sources/adresse")
 
+
+async function scraper(scraper_eshop,url){
+  result = await scraper_eshop.scrape(url);
+  return result;
+}
+
 async function sandbox() {
   try {
     let products = [];
