@@ -85,23 +85,46 @@ async function sandbox2 () {
     let products = [];
 
     //Scraping Adresse
-    let page = 'https://adresse.paris/630-toute-la-collection'
-    results = await scraper(adresse,page)
+    let page = 'https://adresse.paris/630-toute-la-collection';
+    results = await scraper(adresse,page);
     products.push(results);
     
     //Scraping Loom
-    page = 'https://www.loom.fr/collections/tous-les-vetements',
-    results = await scraper(loom,page)
+    page = 'https://www.loom.fr/collections/tous-les-vetements';
+    results = await scraper(loom,page);
     products.push(results);
 
     //Scraping Dedicated
-    pages = ['https://www.dedicatedbrand.com/en/men/all-men','https://www.dedicatedbrand.com/en/women/all-women']
+    pages = ['https://www.dedicatedbrand.com/en/men/all-men','https://www.dedicatedbrand.com/en/women/all-women'];
     for (let page of pages){
-      results = await scraper(dedicatedbrand,page)
+      results = await scraper(dedicatedbrand,page);
       products.push(results);
     }
     
+    //Scraping Montlimart
+    page = ['https://www.montlimart.com/toute-la-collection.html?p='];
+    var results_before = [];
     
+    for (let step = 1;; step++){
+      console.log("step", step);
+      url = page + step.toString();
+      console.log('url', url);
+      results = await scraper(montlimart, url);
+
+      console.log("actuels",results)
+      console.log('precedents',results_before)
+      if(JSON.stringify(results) === JSON.stringify(results_before)){
+        console.log("MEME PRODUITS")
+        break;
+      }
+      else{
+        products.push(results);
+        results_before = results;
+      }
+    }
+
+  
+
     products = products.flat();
     console.log(`\n👕 ${products.length} total of products found\n`);
     
