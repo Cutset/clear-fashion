@@ -70,4 +70,5 @@ async function sandbox () {
   }
 }
 
-sandbox();
+//sandbox();
+db.dropDatabase()
