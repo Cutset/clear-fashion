@@ -94,17 +94,14 @@ async function sandbox2 () {
     results = await scraper(loom,page)
     products.push(results);
 
-    /* Scraping Dedicated
-    page = 'https://www.loom.fr/collections/tous-les-vetements',
-    results = await scraper(loom,page)
-    products.push(results);*/
-
+    //Scraping Dedicated
+    pages = ['https://www.dedicatedbrand.com/en/men/all-men','https://www.dedicatedbrand.com/en/women/all-women']
+    for (let page of pages){
+      results = await scraper(dedicatedbrand,page)
+      products.push(results);
+    }
     
-
-
-
     
-    console.log(`\n👕 ${products.length} total of products found AVANT\n`);
     products = products.flat();
     console.log(`\n👕 ${products.length} total of products found\n`);
     
@@ -117,8 +114,6 @@ async function sandbox2 () {
     console.error(e);
   }
 }
-/*
-var l1 = [[{"a":1},{"a":5},{"a":2}],[{"b":1},{"b":3},{"b":4}]];
-console.log(l1.flat());*/
+
 sandbox2();
 //db.dropDatabase()
