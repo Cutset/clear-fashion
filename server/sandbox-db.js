@@ -106,15 +106,11 @@ async function sandbox2 () {
     var results_before = [];
     
     for (let step = 1;; step++){
-      console.log("step", step);
+
       url = page + step.toString();
-      console.log('url', url);
       results = await scraper(montlimart, url);
 
-      console.log("actuels",results)
-      console.log('precedents',results_before)
       if(JSON.stringify(results) === JSON.stringify(results_before)){
-        console.log("MEME PRODUITS")
         break;
       }
       else{
