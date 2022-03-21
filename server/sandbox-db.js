@@ -14,7 +14,7 @@ async function scraper(scraper_eshop,url){
 async function sandbox() {
   try {
     let products = [];
-/*
+
     //Scraping Adresse
     let page = 'https://adresse.paris/630-toute-la-collection?p=';
     
@@ -41,7 +41,7 @@ async function sandbox() {
       console.log(results.length,"products found")
       products.push(results);
     }
-    */
+    
     //Scraping Montlimart
     page = ['https://www.montlimart.com/toute-la-collection.html?p='];
     var results_before = [];
@@ -64,7 +64,6 @@ async function sandbox() {
 
     products = products.flat();
     console.log(`\n👕 ${products.length} total of products found\n`);
-    
     const result = await db.insert(products);
 
     console.log(`💽  ${result.insertedCount} inserted products`);

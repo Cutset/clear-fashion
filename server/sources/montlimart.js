@@ -11,18 +11,18 @@ const parse = data => {
           .find('.product-name')
           .text()
           .trim();
-        console.log("name",name)
+
         const price = parseInt(
           $(element)
             .find('.price')
             .text());
-        console.log("price",price)
+
         const brand = "Montlimart";
         const link = $(element)
           .find('.product-name')
           .children()
           .attr('href');
-        console.log("link",link)
+
         var photo = $(element)
           .find('.product-image')
           .children()
@@ -30,9 +30,7 @@ const parse = data => {
           .attr('src');
         if(photo !== undefined) photo = photo.toString().replace(' ', '%20');
         
-        console.log("photo",photo)
         const _id = uuidv5(link, uuidv5.URL);
-        console.log("id",_id)
   
         return {_id, link, brand, price, name, photo};
       })
