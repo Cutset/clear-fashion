@@ -23,11 +23,13 @@ const parse = data => {
           .children()
           .attr('href');
         console.log("link",link)
-        const photo = $(element)
+        var photo = $(element)
           .find('.product-image')
           .children()
           .children()
           .attr('src');
+        if(photo !== undefined) photo = photo.toString().replace(' ', '%20');
+        
         console.log("photo",photo)
         const _id = uuidv5(link, uuidv5.URL);
         console.log("id",_id)
