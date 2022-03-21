@@ -11,18 +11,26 @@ const parse = data => {
           .find('.product-name')
           .text()
           .trim();
+        console.log("name",name)
         const price = parseInt(
           $(element)
             .find('.price')
             .text());
+        console.log("price",price)
         const brand = "Montlimart";
         const link = $(element)
           .find('.product-name')
+          .children()
           .attr('href');
+        console.log("link",link)
         const photo = $(element)
           .find('.product-image')
+          .children()
+          .children()
           .attr('src');
+        console.log("photo",photo)
         const _id = uuidv5(link, uuidv5.URL);
+        console.log("id",_id)
   
         return {_id, link, brand, price, name, photo};
       })
