@@ -11,53 +11,26 @@ const {'v5': uuidv5} = require('uuid');
  const parse2 = data => {
   const $ = cheerio.load(data, {'xmlMode': true});
 
-  return $('.columns-container .product-container')
+  return $('.columns-container .product-container:not([style])')
     .map((i, element) => {
       const link = $(element)
         .find('.product-name')
         .attr('href');
       const name = $(element)
         .find('.product-name')
-        .attr('title');
+        .attr('title'); 
       const price = parseInt(
         $(element)
           .find('.price.product-price')
-          .text()
-      );
+          .text());
       const brand = "Adresse";
       const photo = $(element)
         .find('.product_img_link')
-        .attr('src');
+        .children()
+        .attr('data-original');
       const _id = uuidv5(link, uuidv5.URL);
-
+    
       return {_id, link, brand, price, name, photo};
-    })
-    .get();
-};
-
-
-
-/**
- * Parse webpage e-shop
- * @param  {String} data - html response
- * @return {Array} products
- */
-const parse = data => {
-  const $ = cheerio.load(data);
-
-  return $('.columns-container .product-container')
-    .map((i, element) => {
-      const name = $(element)
-        .find('.product-name')
-        .attr('title');
-      const price = parseInt(
-        $(element)
-          .find('.price.product-price')
-          .text()
-      );
-      const brand = "Adresse";
-
-      return {name, price, brand};
     })
     .get();
 };

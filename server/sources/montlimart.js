@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
+const {'v5': uuidv5} = require('uuid');
 
 const parse = data => {
     const $ = cheerio.load(data);
@@ -15,8 +16,15 @@ const parse = data => {
             .find('.price')
             .text());
         const brand = "Montlimart";
+        const link = $(element)
+          .find('.product-name')
+          .attr('href');
+        const photo = $(element)
+          .find('.product-image')
+          .attr('src');
+        const _id = uuidv5(link, uuidv5.URL);
   
-        return {name, price, brand};
+        return {_id, link, brand, price, name, photo};
       })
       .get();
   };
