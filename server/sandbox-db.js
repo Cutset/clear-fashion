@@ -2,8 +2,8 @@
 const dedicatedbrand = require('./sites/dedicatedbrand');
 const loom = require('./sites/loom');
 const db = require('./db');
-const montlimart = require("./sources/montlimart");
-const adresse = require("./sources/adresse")
+const montlimart = require("./sites/montlimart");
+const adresse = require("./sites/adresse")
 
 
 async function scraper(scraper_eshop,url){
