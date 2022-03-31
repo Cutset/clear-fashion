@@ -41,7 +41,11 @@ app.get('/products/search', async(req, res) => {
   const limit = parseInt(req.query.limit);
   const brand = req.query.brand;
   const price = parseInt(req.query.price);
+  var sort = parseInt(req.query.sort);
 
+  if (isNaN(sort)){ //we will sort by ascending price if there are no instruction about sorting
+    sort = 1;
+  }
   if (brand !== undefined){
     match["brand"] = brand;
   }
@@ -50,16 +54,16 @@ app.get('/products/search', async(req, res) => {
   else{
   console.log("not different");
   match["price"] = {$lt:price};
-}
+  }
   if(isNaN(limit)){
     queryAgg.push({$match : match});
-    queryAgg.push({ $sort: { price: 1 } });
+    queryAgg.push({ $sort: { price: sort } });
     result = await db.aggregate(queryAgg);
   }
   else{
     queryAgg.push({$match : match});
     queryAgg.push({$limit : limit});
-    queryAgg.push({ $sort: { price: 1 } });
+    queryAgg.push({ $sort: { price: sort} });
     console.log("query : ", queryAgg);
     result = await db.aggregate(queryAgg);
   }
